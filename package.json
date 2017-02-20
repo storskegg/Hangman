@@ -1,0 +1,29 @@
+{
+  "name": "sk-basic-boilerplate",
+  "version": "0.0.1",
+  "description": "Just a trivial starting point to basic front end stuff.",
+  "homepage": "",
+  "main": "index.js",
+  "repository": {},
+  "author": "Liam Conrad (Storskegg)",
+  "contributors": [
+    {
+      "name": "Liam Conrad",
+      "email": "liam@storskegg.org"
+    }
+  ],
+  "license": "UNLICENSED",
+  "private": true,
+  "devDependencies": {
+    "gulp": "^3.9.1",
+    "gulp-cli": "^1.2.2",
+    "gulp-postcss": "^6.3.0",
+    "gulp-sass": "^3.1.0"
+  },
+  "dependencies": {
+    "autoprefixer": "^6.7.2",
+    "gulp-rename": "^1.2.2",
+    "gulp-sourcemaps": "^2.4.1",
+    "postcss": "^5.2.12"
+  }
+}
