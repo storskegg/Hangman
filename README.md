@@ -14,4 +14,11 @@ The repo assumes the use of Yarn (https://yarnpkg.com), and requires the install
 
 ## What's currently supported
 
-There's just not a whole lot to this, at the moment. The only thing going on, at the moment, is SCSS transpiling piped through PostCSS for autoprifixing.
+* SCSS - Transpiling piped through PostCSS for autoprefixing.
+* JS - Transpiling with support for es2015, es2016 and es2017. JSX can be added. Output is piped through uglify, resulting in very small files.
+
+## TODO
+
+* Add testing support. I've used [Cypress.io] before, and was rather pleased: natural sugar around karma/mocha/chai. While I'm decided, I'd like to support it out of the box.
+
+[Cypress.io](https://www.cypress.io/)
