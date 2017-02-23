@@ -27,7 +27,8 @@
     "gulp-postcss": "^6.3.0",
     "gulp-sass": "^3.1.0",
     "rollup": "^0.41.4",
-    "rollup-plugin-babel": "^2.7.1"
+    "rollup-plugin-babel": "^2.7.1",
+    "rollup-plugin-node-resolve": "^2.0.0"
   },
   "dependencies": {
     "autoprefixer": "^6.7.2",

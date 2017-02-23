@@ -1,22 +1,31 @@
 'use strict';
 
 var gulp = require('gulp');
-var file = require('gulp-file');
-var sass = require('gulp-sass');
-var uglify = require('gulp-uglifyjs');
-var postcss = require('gulp-postcss');
-var sourcemaps = require('gulp-sourcemaps');
-var rename = require('gulp-rename');
 var concat = require('gulp-concat');
+var file = require('gulp-file');
+var rename = require('gulp-rename');
+var sourcemaps = require('gulp-sourcemaps');
+
+// All about that SASS
+var sass = require('gulp-sass');
+var postcss = require('gulp-postcss');
 var autoprefixer = require('autoprefixer');
+
+// All about that ES
 var rollup = require('gulp-better-rollup');
+var nodeResolve  = require('rollup-plugin-node-resolve');
 var babel = require('rollup-plugin-babel');
+var uglify = require('gulp-uglifyjs');
 
 gulp.task('js', function () {
     return gulp.src('src/main.js')
         .pipe(sourcemaps.init())
         .pipe(rollup({
             plugins: [
+                nodeResolve({
+                    browser: true,
+                    jsnext: true
+                }),
                 babel({
                     presets: [
                         ['latest', {
@@ -30,6 +39,7 @@ gulp.task('js', function () {
                 })
             ]
         }, {
+            external: [ 'jquery', 'lodash' ],
             format: 'iife'
         }))
         .pipe(uglify())
