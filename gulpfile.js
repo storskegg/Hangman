@@ -34,7 +34,7 @@ gulp.task('js', function () {
             format: 'iife'
         }))
         .pipe(uglify())
-        .pipe(concat('main.js'))
+        .pipe(concat('app.js'))
         .pipe(sourcemaps.write(''))
         .pipe(gulp.dest('dist'));
 });
