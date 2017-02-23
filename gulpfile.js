@@ -7,61 +7,59 @@ var uglify = require('gulp-uglifyjs');
 var postcss = require('gulp-postcss');
 var sourcemaps = require('gulp-sourcemaps');
 var rename = require('gulp-rename');
+var concat = require('gulp-concat');
 var autoprefixer = require('autoprefixer');
-var rollup = require('rollup');
+var rollup = require('gulp-better-rollup');
 var babel = require('rollup-plugin-babel');
 
 gulp.task('js', function () {
-    return rollup.rollup({
-        entry: './src/main.js',
-        plugins: [
-            babel({
-                presets: [
-                    [
-                        "es2015", {
-                            "modules": false
-                        }
-                    ]
-                ],
-                babelrc: false,
-                exclude: 'node_modules/**'
-            })
-        ]
-    })
-    .then(bundle => {
-        return bundle.generate({
-            format: 'umd',
-            moduleName: 'myModuleName'
-        })
-    })
-    .then(gen => {
-        return file('app.js', gen.code, {src: true})
-            .pipe(uglify())
-            .pipe(gulp.dest('./dist'));
-    });
+    return gulp.src('src/main.js')
+        .pipe(sourcemaps.init())
+        .pipe(rollup({
+            plugins: [
+                babel({
+                    presets: [
+                        [
+                            'es2015',
+                            {
+                                modules: false
+                            }
+                        ]
+                    ],
+                    babelrc: false,
+                    exclude: 'node_modules/**'
+                })
+            ]
+        }, {
+            format: 'iife'
+        }))
+        .pipe(uglify())
+        .pipe(concat('main.js'))
+        .pipe(sourcemaps.write(''))
+        .pipe(gulp.dest('dist'));
 });
 
 gulp.task('sass', function () {
-    return gulp.src('./sass/example.scss')
+    return gulp.src('sass/example.scss')
         .pipe(sourcemaps.init())
         .pipe(sass({
             includePaths: [
-                './sass',
-                './sass/includes'
+                'sass',
+                'sass/includes'
             ],
             outputStyle: 'compressed'
         }).on('error', sass.logError))
         .pipe(postcss([ autoprefixer() ]))
         .pipe(rename({ suffix: '.min' }))
         .pipe(sourcemaps.write('.'))
-        .pipe(gulp.dest('./dist/css'));
+        .pipe(gulp.dest('dist/css'));
 });
 
 gulp.task('build', ['sass', 'js']);
 
 gulp.task('watch', function () {
-    gulp.watch('./src/**/*.js', ['js']);
-    gulp.watch('./sass/**/*.scss', ['sass']);
+    gulp.watch('src/**/*.js', ['js']);
+    gulp.watch('sass/**/*.scss', ['sass']);
 });
 
 gulp.task('default', ['watch']);
