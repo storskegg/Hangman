@@ -19,6 +19,4 @@ The repo assumes the use of Yarn (https://yarnpkg.com), and requires the install
 
 ## TODO
 
-* Add testing support. I've used [Cypress.io] before, and was rather pleased: natural sugar around karma/mocha/chai. While I'm decided, I'd like to support it out of the box.
-
-[Cypress.io](https://www.cypress.io/)
+* Add testing support. I've used [Cypress.io](https://www.cypress.io/) before, and was rather pleased: natural sugar around karma/mocha/chai. While I'm decided, I'd like to support it out of the box.
