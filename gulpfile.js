@@ -19,12 +19,11 @@ gulp.task('js', function () {
             plugins: [
                 babel({
                     presets: [
-                        [
-                            'es2015',
-                            {
+                        ['latest', {
+                            es2015: {
                                 modules: false
                             }
-                        ]
+                        }]
                     ],
                     babelrc: false,
                     exclude: 'node_modules/**'

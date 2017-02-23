@@ -8,7 +8,7 @@
 
 'use strict';
 
-const immutableNumber = 78;
+const immutableNumber = 101;
 const immutableText   = 'i am text';
 
 const getImmutableNumber = function() {
