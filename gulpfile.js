@@ -7,21 +7,14 @@ var sourcemaps = require('gulp-sourcemaps');
 var rename = require('gulp-rename');
 var autoprefixer = require('autoprefixer');
 
-gulp.task('sass:dev', function () {
-    return gulp.src('./src/sass/**/*.scss')
-        .pipe(sass({
-            includePaths: [
-                './src/sass',
-                './src/sass/includes'
-            ]
-        }).on('error', sass.logError))
-        .pipe(postcss([ autoprefixer() ]))
-        .pipe(gulp.dest('./dist/css'));
+gulp.task('js', function () {
+    return gulp.src('./src/main.js')
+        .pipe(sourcemaps.init())
+        .pipe(gulp.dest('./dist'));
 });
 
-
-gulp.task('sass:prod', function () {
-    return gulp.src('./src/sass/**/*.scss')
+gulp.task('sass', function () {
+    return gulp.src('./src/sass/example.scss')
         .pipe(sourcemaps.init())
         .pipe(sass({
             includePaths: [
@@ -36,6 +29,11 @@ gulp.task('sass:prod', function () {
         .pipe(gulp.dest('./dist/css'));
 });
 
-gulp.task('sass:watch', function () {
-    gulp.watch('./src/sass/**/*.scss', ['sass:dev']);
+gulp.task('build', ['sass', 'js']);
+
+gulp.task('watch', function () {
+    gulp.watch('./src/**/*.js', ['js']);
+    gulp.watch('./src/sass/**/*.scss', ['sass']);
 });
+
+gulp.task('default', ['watch']);
