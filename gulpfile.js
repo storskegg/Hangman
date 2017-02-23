@@ -11,11 +11,6 @@ var autoprefixer = require('autoprefixer');
 var rollup = require('rollup');
 var babel = require('rollup-plugin-babel');
 
-// gulp.task('js', function () {
-//     return gulp.src('./src/main.js')
-//         .pipe(sourcemaps.init())
-//         .pipe(gulp.dest('./dist'));
-// });
 gulp.task('js', function () {
     return rollup.rollup({
         entry: './src/main.js',
@@ -47,12 +42,12 @@ gulp.task('js', function () {
 });
 
 gulp.task('sass', function () {
-    return gulp.src('./src/sass/example.scss')
+    return gulp.src('./sass/example.scss')
         .pipe(sourcemaps.init())
         .pipe(sass({
             includePaths: [
-                './src/sass',
-                './src/sass/includes'
+                './sass',
+                './sass/includes'
             ],
             outputStyle: 'compressed'
         }).on('error', sass.logError))
@@ -66,7 +61,7 @@ gulp.task('build', ['sass', 'js']);
 
 gulp.task('watch', function () {
     gulp.watch('./src/**/*.js', ['js']);
-    gulp.watch('./src/sass/**/*.scss', ['sass']);
+    gulp.watch('./sass/**/*.scss', ['sass']);
 });
 
 gulp.task('default', ['watch']);
