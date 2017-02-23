@@ -1,0 +1,1 @@
+!function(n,e){"object"==typeof exports&&"undefined"!=typeof module?e():"function"==typeof define&&define.amd?define(e):e()}(this,function(){"use strict";var n=78,e="i am text",t=function(){return n},o=function(){return e},i=function(n){return n=n.trim(),"<p>"+n+"</p>"};console.log(i("["+t()+"] - "+o()))});

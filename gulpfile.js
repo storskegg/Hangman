@@ -1,16 +1,49 @@
 'use strict';
 
 var gulp = require('gulp');
+var file = require('gulp-file');
 var sass = require('gulp-sass');
+var uglify = require('gulp-uglifyjs');
 var postcss = require('gulp-postcss');
 var sourcemaps = require('gulp-sourcemaps');
 var rename = require('gulp-rename');
 var autoprefixer = require('autoprefixer');
+var rollup = require('rollup');
+var babel = require('rollup-plugin-babel');
 
+// gulp.task('js', function () {
+//     return gulp.src('./src/main.js')
+//         .pipe(sourcemaps.init())
+//         .pipe(gulp.dest('./dist'));
+// });
 gulp.task('js', function () {
-    return gulp.src('./src/main.js')
-        .pipe(sourcemaps.init())
-        .pipe(gulp.dest('./dist'));
+    return rollup.rollup({
+        entry: './src/main.js',
+        plugins: [
+            babel({
+                presets: [
+                    [
+                        "es2015", {
+                            "modules": false
+                        }
+                    ]
+                ],
+                babelrc: false,
+                exclude: 'node_modules/**'
+            })
+        ]
+    })
+    .then(bundle => {
+        return bundle.generate({
+            format: 'umd',
+            moduleName: 'myModuleName'
+        })
+    })
+    .then(gen => {
+        return file('app.js', gen.code, {src: true})
+            .pipe(uglify())
+            .pipe(gulp.dest('./dist'));
+    });
 });
 
 gulp.task('sass', function () {
