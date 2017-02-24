@@ -15,7 +15,7 @@ The repo assumes the use of Yarn (https://yarnpkg.com), and requires the install
 ## What's currently supported
 
 * SCSS - Transpiling piped through PostCSS for autoprefixing.
-* JS - Transpiling with support for es2015, es2016 and es2017. JSX can be added. Output is piped through uglify, resulting in very small files.
+* JS - Transpiling with support for es2015, es2016 and es2017 with [Babel](https://babeljs.io/), and tree shaking and optimization implemented with [RollupJS](http://rollupjs.org). JSX, Angular and VueJS suppport can be easily added. Output is piped through [UglifyJS](https://github.com/mishoo/UglifyJS2), resulting in very small files that execute very quickly in comparison to the output of Webpack and Browserify: [https://nolanlawson.com/2016/08/15/the-cost-of-small-modules/] [https://github.com/nolanlawson/rollup-comparison]
 
 ## TODO
 
