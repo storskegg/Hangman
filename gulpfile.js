@@ -32,10 +32,16 @@ gulp.task('html', function() {
         .pipe(bs.reload({stream: true}));
 });
 
-gulp.task('jsx', function () {
+gulp.task('eslint', function() {
+    return gulp.src('src/js/**/*.jsx')
+    .pipe(eslint())
+    .pipe(eslint.format())
+    .pipe(eslint.failAfterError());
+});
+
+gulp.task('jsx', ['eslint'], function () {
     return gulp.src('src/js/main.jsx')
         .pipe(plumber())
-        .pipe(eslint())
         .pipe(sourcemaps.init())
         .pipe(rollup({
             plugins: [
