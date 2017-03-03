@@ -3,6 +3,7 @@
 var gulp = require('gulp');
 var concat = require('gulp-concat');
 var file = require('gulp-file');
+var plumber = require('gulp-plumber');
 var rename = require('gulp-rename');
 var sourcemaps = require('gulp-sourcemaps');
 
@@ -14,12 +15,16 @@ var autoprefixer = require('autoprefixer');
 // All about that ES
 var rollup = require('gulp-better-rollup');
 var nodeResolve  = require('rollup-plugin-node-resolve');
+var replace = require('rollup-plugin-replace');
 var commonjs = require('rollup-plugin-commonjs');
 var babel = require('rollup-plugin-babel');
 var uglify = require('gulp-uglifyjs');
+var eslint = require('gulp-eslint');
 
 // Everything in Sync
 var bs = require('browser-sync').create();
+
+const env = process.env.NODE_ENV;
 
 gulp.task('html', function() {
     return gulp.src('src/index.html')
@@ -29,12 +34,18 @@ gulp.task('html', function() {
 
 gulp.task('jsx', function () {
     return gulp.src('src/js/main.jsx')
+        .pipe(plumber())
+        .pipe(eslint())
         .pipe(sourcemaps.init())
         .pipe(rollup({
             plugins: [
                 nodeResolve({
                     browser: true,
+                    main: true,
                     jsnext: true
+                }),
+                replace({
+                    'process.env.NODE_ENV': JSON.stringify(env)
                 }),
                 commonjs({
                     include: 'node_modules/**',
@@ -66,12 +77,14 @@ gulp.task('jsx', function () {
         .pipe(uglify())
         .pipe(concat('app.js'))
         .pipe(sourcemaps.write(''))
+        .pipe(plumber.stop())
         .pipe(gulp.dest('dist/js'))
         .pipe(bs.reload({stream: true}));
 });
 
 gulp.task('sass', function () {
     return gulp.src('src/sass/app.scss')
+        .pipe(plumber())
         .pipe(sourcemaps.init())
         .pipe(sass({
             includePaths: [
@@ -83,6 +96,7 @@ gulp.task('sass', function () {
         .pipe(postcss([ autoprefixer() ]))
         .pipe(rename({ suffix: '.min' }))
         .pipe(sourcemaps.write('.'))
+        .pipe(plumber.stop())
         .pipe(gulp.dest('dist/css'))
         .pipe(bs.reload({stream: true}));
 });

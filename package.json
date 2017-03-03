@@ -24,18 +24,22 @@
     "babel-preset-latest": "^6.22.0",
     "babel-preset-react": "^6.23.0",
     "browser-sync": "^2.18.8",
+    "eslint": "^3.16.1",
     "eslint-plugin-react": "^6.10.0",
     "gulp": "^3.9.1",
     "gulp-better-rollup": "^1.0.2",
     "gulp-cli": "^1.2.2",
     "gulp-concat": "^2.6.1",
+    "gulp-eslint": "^3.0.1",
     "gulp-file": "^0.3.0",
+    "gulp-plumber": "^1.1.0",
     "gulp-postcss": "^6.3.0",
     "gulp-sass": "^3.1.0",
     "rollup": "^0.41.4",
     "rollup-plugin-babel": "^2.7.1",
     "rollup-plugin-commonjs": "^7.0.0",
-    "rollup-plugin-node-resolve": "^2.0.0"
+    "rollup-plugin-node-resolve": "^2.0.0",
+    "rollup-plugin-replace": "^1.1.1"
   },
   "dependencies": {
     "autoprefixer": "^6.7.2",
