@@ -18,9 +18,13 @@ var commonjs = require('rollup-plugin-commonjs');
 var babel = require('rollup-plugin-babel');
 var uglify = require('gulp-uglifyjs');
 
+// Everything in Sync
+var bs = require('browser-sync').create();
+
 gulp.task('html', function() {
     return gulp.src('src/index.html')
-        .pipe(gulp.dest('dist'));
+        .pipe(gulp.dest('dist'))
+        .pipe(bs.reload({stream: true}));
 });
 
 gulp.task('jsx', function () {
@@ -31,6 +35,12 @@ gulp.task('jsx', function () {
                 nodeResolve({
                     browser: true,
                     jsnext: true
+                }),
+                commonjs({
+                    include: 'node_modules/**',
+                    namedExports: {
+                      'react-dom': ['render']
+                    }
                 }),
                 babel({
                     presets: [
@@ -47,12 +57,6 @@ gulp.task('jsx', function () {
                     ],
                     babelrc: false,
                     exclude: 'node_modules/**'
-                }),
-                commonjs({
-                    include: 'node_modules/**',
-                    namedExports: {
-                      'react-dom': ['render']
-                    }
                 })
             ]
         }, {
@@ -62,7 +66,8 @@ gulp.task('jsx', function () {
         .pipe(uglify())
         .pipe(concat('app.js'))
         .pipe(sourcemaps.write(''))
-        .pipe(gulp.dest('dist/js'));
+        .pipe(gulp.dest('dist/js'))
+        .pipe(bs.reload({stream: true}));
 });
 
 gulp.task('sass', function () {
@@ -78,15 +83,24 @@ gulp.task('sass', function () {
         .pipe(postcss([ autoprefixer() ]))
         .pipe(rename({ suffix: '.min' }))
         .pipe(sourcemaps.write('.'))
-        .pipe(gulp.dest('dist/css'));
+        .pipe(gulp.dest('dist/css'))
+        .pipe(bs.reload({stream: true}));
+});
+
+gulp.task('browser-sync', ['html', 'jsx', 'sass'], function() {
+    bs.init({
+        server: {
+            baseDir: './dist'
+        }
+    });
 });
 
 gulp.task('build', ['html', 'sass', 'jsx']);
 
-gulp.task('watch', function () {
+gulp.task('watch', ['browser-sync'], function () {
     gulp.watch('src/index.html', ['html']);
     gulp.watch(['src/**/*.js', 'src/**/*.jsx'], ['jsx']);
     gulp.watch('sass/**/*.scss', ['sass']);
 });
 
-gulp.task('default', ['build', 'watch']);
+gulp.task('default', ['build', 'watch', 'browser-sync']);
