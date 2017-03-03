@@ -14,11 +14,17 @@ var autoprefixer = require('autoprefixer');
 // All about that ES
 var rollup = require('gulp-better-rollup');
 var nodeResolve  = require('rollup-plugin-node-resolve');
+var commonjs = require('rollup-plugin-commonjs');
 var babel = require('rollup-plugin-babel');
 var uglify = require('gulp-uglifyjs');
 
-gulp.task('js', function () {
-    return gulp.src('src/main.js')
+gulp.task('html', function() {
+    return gulp.src('src/index.html')
+        .pipe(gulp.dest('dist'));
+});
+
+gulp.task('jsx', function () {
+    return gulp.src('src/js/main.jsx')
         .pipe(sourcemaps.init())
         .pipe(rollup({
             plugins: [
@@ -32,10 +38,21 @@ gulp.task('js', function () {
                             es2015: {
                                 modules: false
                             }
-                        }]
+                        }],
+                        ['react']
+                    ],
+                    plugins: [
+                      'external-helpers',
+                      'transform-react-jsx'
                     ],
                     babelrc: false,
                     exclude: 'node_modules/**'
+                }),
+                commonjs({
+                    include: 'node_modules/**',
+                    namedExports: {
+                      'react-dom': ['render']
+                    }
                 })
             ]
         }, {
@@ -45,11 +62,11 @@ gulp.task('js', function () {
         .pipe(uglify())
         .pipe(concat('app.js'))
         .pipe(sourcemaps.write(''))
-        .pipe(gulp.dest('dist'));
+        .pipe(gulp.dest('dist/js'));
 });
 
 gulp.task('sass', function () {
-    return gulp.src('sass/example.scss')
+    return gulp.src('src/sass/app.scss')
         .pipe(sourcemaps.init())
         .pipe(sass({
             includePaths: [
@@ -64,11 +81,12 @@ gulp.task('sass', function () {
         .pipe(gulp.dest('dist/css'));
 });
 
-gulp.task('build', ['sass', 'js']);
+gulp.task('build', ['html', 'sass', 'jsx']);
 
 gulp.task('watch', function () {
-    gulp.watch('src/**/*.js', ['js']);
+    gulp.watch('src/index.html', ['html']);
+    gulp.watch(['src/**/*.js', 'src/**/*.jsx'], ['jsx']);
     gulp.watch('sass/**/*.scss', ['sass']);
 });
 
-gulp.task('default', ['watch']);
+gulp.task('default', ['build', 'watch']);
