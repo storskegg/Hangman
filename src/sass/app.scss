@@ -1,34 +1,8 @@
-$pumpkin: orangered;
+$red: tomato;
 
-.columns {
-  column-count: 1;
-  column-gap: 3em;
-  column-rule: 1px solid $pumpkin;
-  text-align: justify;
-
-  .dt {
-    font-size: 1.2em;
-    font-weight: bold;
-    text-transform: uppercase;
-  }
-
-  .pair {
-    break-inside: avoid-column;
-
-    &:not(:first-of-type) {
-      margin-top: 1.5em;
-    }
-  }
-
-  &.two {
-    column-count: 2;
-  }
-
-  &.three {
-    column-count: 3;
-  }
-
-  &.four {
-    column-count: 4;
-  }
+#root {
+  border: 1px dotted $red;
+  margin: 1em auto 0;
+  padding: 0.5em 1em;
+  width: 75vw;
 }

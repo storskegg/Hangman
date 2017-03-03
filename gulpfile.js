@@ -120,7 +120,7 @@ gulp.task('build', ['html', 'sass', 'jsx']);
 gulp.task('watch', ['browser-sync'], function () {
     gulp.watch('src/index.html', ['html']);
     gulp.watch(['src/**/*.js', 'src/**/*.jsx'], ['jsx']);
-    gulp.watch('sass/**/*.scss', ['sass']);
+    gulp.watch('src/sass/**/*.scss', ['sass']);
 });
 
 gulp.task('default', ['build', 'watch', 'browser-sync']);
